@@ -1,5 +1,3 @@
-Db.FileTableFramework - CLR Integration functions and stored procedures for SQL FileTables.
-
 Copyright (c) 2016, Jared Barneck (Rhyous)
 All rights reserved.
  
