@@ -14,7 +14,7 @@ namespace Rhyous.Db.FileTableFramework.Managers
             var dir = Path.GetDirectoryName(path);
             var pathId = DirectoryExists(table, dir, conn);
             if (string.IsNullOrWhiteSpace(pathId))
-                pathId = CreateDirectory(table, path, conn);
+                pathId = CreateDirectory(table, dir, conn);
             var hierarchyId = FileTableRepo.CreateFile(table, file, FileTableRepo.NewChildHierarchyId(pathId), data, conn);
             return hierarchyId;
         }
