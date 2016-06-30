@@ -37,3 +37,4 @@ using System.Runtime.InteropServices;
 
 
 [assembly: InternalsVisibleTo("Rhyous.Db.FileTableFramework.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
