@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Rhyous.Db.FileTableFramework.Repos
 {
-    class FileTableRepo : IFileTableRepo
+    internal class FileTableRepo : IFileTableRepo
     {
         public string CreateFile(string table, string fileName, string pathId, byte[] data, SqlConnection conn)
         {
@@ -81,7 +81,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
             return pathId;
         }
 
-        public virtual string FindDirectory(string table, string path, SqlConnection conn)
+        public virtual string FindPath(string table, string path, bool isDirectory, SqlConnection conn)
         {
             SqlConnManager.IsConnected(conn);
             if (!FileTableExists(table, conn))
@@ -94,6 +94,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
             SqlCommand cmd = new SqlCommand(qry, conn);
             cmd.Parameters.Add(new SqlParameter("@path", path));
             cmd.Parameters.Add(new SqlParameter("@tableDirAndPath", tableDirAndPath));
+            cmd.Parameters.Add(new SqlParameter("@isDir", isDirectory));
             var hierarchyId = cmd.ExecuteScalar() as string;
             return hierarchyId;
         }
@@ -126,7 +127,8 @@ namespace Rhyous.Db.FileTableFramework.Repos
         + " OR file_stream.GetFileNamespacePath() = '\\' + @path" // An exact match without leading slash: MyFileTable\MyPath
         + " OR file_stream.GetFileNamespacePath() = @tableDirAndPath" // A subdir (with or without leading slash): MyPath or \MyPath
         + " OR file_stream.GetFileNamespacePath(1) = @path" // A full path: \\server\instanceDir\dbDir\MyFileTable\MyPath
-        + " OR file_stream.GetFileNamespacePath(1, 2) = @path"; // A full path with FQDN: \\server.domain.tld\instanceDir\dbDir\MyFileTable\MyPath
+        + " OR file_stream.GetFileNamespacePath(1, 2) = @path" // A full path with FQDN: \\server.domain.tld\instanceDir\dbDir\MyFileTable\MyPath
+        + " AND is_directory = @isDir";
 
 
 

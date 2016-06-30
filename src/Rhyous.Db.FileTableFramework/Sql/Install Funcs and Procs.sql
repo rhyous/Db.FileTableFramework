@@ -22,6 +22,9 @@ GO
 CREATE FUNCTION DirectoryExists(@table NVARCHAR(100), @path NVARCHAR(400)) RETURNS NVARCHAR(MAX)
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].DirectoryExists;
 GO
+CREATE FUNCTION FileExists(@table NVARCHAR(100), @path NVARCHAR(400)) RETURNS NVARCHAR(MAX)
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].FileExists;
+GO
 CREATE Procedure CreateDirectory(@table NVARCHAR(100), @path NVARCHAR(400), @id NVARCHAR(MAX) OUTPUT)
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].CreateDirectory;
 GO

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Rhyous.Db.FileTableFramework.Managers
 {
-    class DirectoryManager : IFileTableManager
+    internal class DirectoryManager : IFileTableManager
     {
         public string CreateFile(string table, string path, byte[] data, SqlConnection conn)
         {
@@ -52,7 +52,12 @@ namespace Rhyous.Db.FileTableFramework.Managers
 
         public virtual string DirectoryExists(string table, string path, SqlConnection conn)
         {
-            return FileTableRepo.FindDirectory(table, path, conn);
+            return FileTableRepo.FindPath(table, path, true, conn);
+        }
+
+        public virtual string FileExists(string table, string path, SqlConnection conn)
+        {
+            return FileTableRepo.FindPath(table, path, false, conn);
         }
 
         #region Dependency Injectable Properties

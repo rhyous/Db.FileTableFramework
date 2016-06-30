@@ -16,6 +16,16 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         string DirectoryExists(string table, string path, SqlConnection conn);
 
         /// <summary>
+        /// Checks for the existance of a file in a FileTable
+        /// </summary>
+        /// <param name="table">The name of the FileTable</param>
+        /// <param name="path">The path of the directory. It must be a full path,
+        /// or a path relative from, but not including, the table's root directory.</param>
+        /// <param name="conn">The Sql Connection string</param>
+        /// <returns>The files's HierarchyId as a string if it exists, null if it doesn't.</returns>
+        string FileExists(string table, string path, SqlConnection conn);
+
+        /// <summary>
         /// Creates a directory in a FileTable. If it already exists, it must
         /// not error, but instead return the pathId.
         /// </summary>

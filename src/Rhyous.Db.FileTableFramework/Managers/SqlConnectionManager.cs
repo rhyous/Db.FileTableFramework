@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 
 namespace Rhyous.Db.FileTableFramework.Managers
 {
-    class SqlConnectionManager : ISqlConnectionManager
+    internal class SqlConnectionManager : ISqlConnectionManager
     {
         public bool IsConnected(SqlConnection conn)
         {

@@ -38,12 +38,12 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// 
         /// </summary>
         /// <param name="table"></param>
-        /// <param name="dir"></param
+        /// <param name="path"></param
         /// <param name="parentPathId"></param>
         /// <param name="tableDirAndPath"></param>
         /// <param name="conn"></param>
         /// <returns></returns>
-        string FindDirectory(string table, string dir, SqlConnection conn);
+        string FindPath(string table, string path, bool isDirectory, SqlConnection conn);
 
         /// <summary>
         /// Checks if the FileTable exists.

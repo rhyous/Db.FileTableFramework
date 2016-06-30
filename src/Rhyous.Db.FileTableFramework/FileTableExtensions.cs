@@ -38,6 +38,21 @@ namespace Rhyous.Db.FileTableFramework
             return (ftManager ?? new DirectoryManager()).DirectoryExists(table, path, conn);
         }
 
+        [SqlFunction(DataAccess = DataAccessKind.Read, SystemDataAccess = SystemDataAccessKind.Read)]
+        public static string FileExists(string table, string path)
+        {
+            using (SqlConnection conn = new SqlConnection("context connection=true"))
+            {
+                conn.Open();
+                return _FileExists(table, path, conn);
+            }
+        }
+
+        internal static string _FileExists(string table, string path, SqlConnection conn, IFileTableManager ftManager = null)
+        {
+            return (ftManager ?? new DirectoryManager()).FileExists(table, path, conn);
+        }
+
         [SqlProcedure()]
         public static void CreateDirectory(string table, string path, out string id)
         {
