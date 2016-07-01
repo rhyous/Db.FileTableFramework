@@ -25,8 +25,11 @@
   <Fragment>
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
       <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-      <Component Id="ProductComponent" Guid="*" Win64="$(var.Win64)">
+      <Component Id="dll_Component" Guid="*" Win64="$(var.Win64)">
         <File Id='FileTableFramework_dll_id' Name='$(var.Rhyous.Db.FileTableFramework.TargetFileName)' DiskId='1' Source='$(var.Rhyous.Db.FileTableFramework.TargetPath)' KeyPath='yes' />
+      </Component>
+      <Component Id="sql_Component" Guid="*" Win64="$(var.Win64)">
+        <File Id='FileTableFramework_sql_id' Name='Install Funcs and Procs.sql' DiskId='1' Source='$(var.Rhyous.Db.FileTableFramework.ProjectDir)SQL\Install Funcs and Procs.sql' KeyPath='yes' />
       </Component>
     </ComponentGroup>
   </Fragment>
