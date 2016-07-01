@@ -14,7 +14,7 @@ GO
 DROP ASSEMBLY FileTableFramework
 GO
 
-CREATE ASSEMBLY FileTableFramework from 'C:\Program Files\Rhyous\Db.FileTables\Rhyous.Db.FileTableFramework.dll' WITH PERMISSION_SET = SAFE
+CREATE ASSEMBLY FileTableFramework from 'C:\Program Files\Rhyous\Db.FileTableFramework\Rhyous.Db.FileTableFramework.dll' WITH PERMISSION_SET = SAFE
 GO
 
 CREATE FUNCTION FileTableExists(@table NVARCHAR(100)) RETURNS BIT
