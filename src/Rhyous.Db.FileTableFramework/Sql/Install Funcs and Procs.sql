@@ -1,6 +1,6 @@
 /*
-*	Created by: Jared Barneck (Rhyous)
-*	Create date: 6/27/2016
+*   Created by: Jared Barneck (Rhyous)
+*   Create date: 6/27/2016
 *   Last Modified: 6/30/2016
 */
 

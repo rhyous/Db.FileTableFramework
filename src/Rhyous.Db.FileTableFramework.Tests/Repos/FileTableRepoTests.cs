@@ -15,7 +15,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Repos
         //Guid                                  Binary(16)                         SUBSTRING      BIGINT         VARCHAR(20)
         // 588FE337-604A-4A90-B20D-60138E43318D 0x37E38F584A60904AB20D60138E43318D 0x37E38F584A60 61450502031968 61450502031968
         // part1            part2           part3
-        // 61450502031968	158650489200659	2386768269
+        // 61450502031968   158650489200659 2386768269
         [TestMethod]
         public void GetLongTest1Part1()
         {
