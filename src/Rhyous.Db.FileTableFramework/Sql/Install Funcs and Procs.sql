@@ -6,6 +6,7 @@
 
 DROP FUNCTION FileTableExists
 DROP FUNCTION DirectoryExists
+DROP FUNCTION FileExists
 DROP PROCEDURE CreateDirectory
 DROP PROCEDURE CreateFile
 GO
