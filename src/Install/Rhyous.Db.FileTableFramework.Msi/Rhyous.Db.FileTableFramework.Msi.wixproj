@@ -17,7 +17,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>9f5b35c1-b157-41ff-b30b-1c99851e06c4</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>Rhyous.Db.FileTableFramework.Msi</OutputName>
+    <OutputName>Rhyous.Db.FileTableFramework</OutputName>
     <OutputType>Package</OutputType>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath64)' != '' ">$(MSBuildExtensionsPath64)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
     <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
