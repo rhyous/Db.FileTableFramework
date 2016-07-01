@@ -59,7 +59,7 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// <param name="table">The name of the FileTable</param>
         /// <param name="conn">The Sql Connection string</param>
         /// <returns></returns>
-        string GetTableRootPath(string table, SqlConnection conn);
+        string GetTableRootPath(string table, int option, SqlConnection conn);
 
         /// <summary>
         /// Gets new HierachyId as string

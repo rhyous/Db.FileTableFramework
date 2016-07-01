@@ -31,16 +31,18 @@ namespace Rhyous.Db.FileTableFramework.Repos
             return hierarchyid;
         }
 
-        public virtual string GetTableRootPath(string table, SqlConnection conn)
+        public virtual string GetTableRootPath(string table, int option, SqlConnection conn)
         {
             SqlConnManager.IsConnected(conn);
             if (!FileTableExists(table, conn))
             {
                 throw new Exception("Table does not exists or is not a FileTable.");
             }
-            const string qry = "SELECT FileTableRootPath(@table)";
+            option = (option < 0 || option > 2) ? 0 : option;// Only allow valid options
+            const string qry = "SELECT FileTableRootPath(@table, @option)";
             var tableRootCmd = new SqlCommand(qry, conn);
             tableRootCmd.Parameters.Add(new SqlParameter("@table", table));
+            tableRootCmd.Parameters.Add(new SqlParameter("@option", option));
             var tableRoot = tableRootCmd.ExecuteScalar() as string;
             return tableRoot;
         }
@@ -88,7 +90,13 @@ namespace Rhyous.Db.FileTableFramework.Repos
             {
                 throw new Exception("Table does not exists or is not a FileTable.");
             }
-            var tableDir = Path.GetFileName(GetTableRootPath(table, conn));
+            var tableRoot = GetTableRootPath(table, 0, conn);
+            var tableRootFqdn = GetTableRootPath(table, 2, conn);
+            if (IsTableRoot(path, tableRoot, tableRootFqdn))
+            {
+                return "/";
+            }
+            var tableDir = Path.GetFileName(tableRoot);
             var tableDirAndPath = @"\" + Path.Combine(tableDir, path.Trim(@"\".ToCharArray()));
             var qry = string.Format(PathExistsQry, table);
             SqlCommand cmd = new SqlCommand(qry, conn);
@@ -97,6 +105,14 @@ namespace Rhyous.Db.FileTableFramework.Repos
             cmd.Parameters.Add(new SqlParameter("@isDir", isDirectory));
             var hierarchyId = cmd.ExecuteScalar() as string;
             return hierarchyId;
+        }
+
+        internal bool IsTableRoot(string path, string tableRoot, string tableRootFqdn)
+        {
+            var tableRootRelative = Path.GetFileName(tableRoot);
+            return path.Equals(tableRoot, StringComparison.InvariantCultureIgnoreCase)
+                || path.Equals(tableRootFqdn, StringComparison.InvariantCultureIgnoreCase)
+                || path.TrimStart('\\').Equals(tableRootRelative, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public string NewChildHierarchyId(string pathId)

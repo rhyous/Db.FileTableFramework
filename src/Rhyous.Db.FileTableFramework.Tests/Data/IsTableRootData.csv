@@ -1,0 +1,15 @@
+Path, Expected
+tdir, true
+\tdir, true
+\\server\instdir\dbdir\tdir, true
+\\SERVER\instdir\dbdir\tdir, true
+\\server.domain.tld\instdir\dbdir\tdir, true
+\\SERVER.DOMAIN.TLD\instdir\dbdir\tdir, true
+subdir, false
+\subdir, false
+tdir\subdir, false
+\tdir\subdir, false
+\\server\instdir\dbdir\tdir\subdir, false
+\\SERVER\instdir\dbdir\tdir\subdir, false
+\\server.domain.tld\instdir\dbdir\tdir\subdir, false
+\\SERVER.DOMAIN.TLD\instdir\dbdir\tdir\subdir, false

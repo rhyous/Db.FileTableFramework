@@ -34,7 +34,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             fileTableRepo.Setup(m => m.CreateDirectory(table, "dir1", It.IsAny<string>(), It.IsAny<SqlConnection>())).Returns("ABC12301");
             fileTableRepo.Setup(m => m.CreateDirectory(table, "dir2", It.IsAny<string>(), It.IsAny<SqlConnection>())).Returns("ABC12302");
             fileTableRepo.Setup(m => m.CreateDirectory(table, "dir3", It.IsAny<string>(), It.IsAny<SqlConnection>())).Returns("ABC12303");
-            fileTableRepo.Setup(m => m.GetTableRootPath(table, null)).Returns(tableRoot);
+            fileTableRepo.Setup(m => m.GetTableRootPath(table, 0, null)).Returns(tableRoot);
             dirManager.FileTableRepo = fileTableRepo.Object;
 
             // Act
@@ -54,7 +54,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             var dirManager = new DirectoryManager();
             var fileTableRepo = new Mock<FileTableRepo>();
             fileTableRepo.Setup(m => m.FindPath(table, dirStructure, true, It.IsAny<SqlConnection>())).Returns("ABC12303");
-            fileTableRepo.Setup(m => m.GetTableRootPath(table, null)).Returns(tableRoot);
+            fileTableRepo.Setup(m => m.GetTableRootPath(table, 0, null)).Returns(tableRoot);
             dirManager.FileTableRepo = fileTableRepo.Object;
 
             // Act
@@ -77,7 +77,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             dirManager.FileTableRepo = fileTableRepo.Object;
 
             fileTableRepo.Setup(m => m.FileTableExists(table, null)).Returns(true);
-            fileTableRepo.Setup(m => m.GetTableRootPath(table, null)).Returns(tableRoot);
+            fileTableRepo.Setup(m => m.GetTableRootPath(table, 0, null)).Returns(tableRoot);
 
             // Act
             var pathId = dirManager.DirectoryExists(table, dirStructure, null);
@@ -101,7 +101,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
 
             var fileTableManagerMock = new Mock<IFileTableRepo>();
             fileTableManagerMock.Setup(m => m.FileTableExists(table, null)).Returns(true);
-            fileTableManagerMock.Setup(m => m.GetTableRootPath(table, null)).Returns(tableRoot);
+            fileTableManagerMock.Setup(m => m.GetTableRootPath(table, 0, null)).Returns(tableRoot);
 
             // Act
             var pathId = dirManager.DirectoryExists(table, dirStructure, null);
@@ -125,7 +125,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
 
             var fileTableManagerMock = new Mock<IFileTableRepo>();
             fileTableManagerMock.Setup(m => m.FileTableExists(table, null)).Returns(true);
-            fileTableManagerMock.Setup(m => m.GetTableRootPath(table, null)).Returns(tableRoot);
+            fileTableManagerMock.Setup(m => m.GetTableRootPath(table, 0, null)).Returns(tableRoot);
 
             // Act
             var pathId = dirManager.FileExists(table, dirStructure, null);
