@@ -1,4 +1,5 @@
 Path, Expected
+,true
 tdir, true
 \tdir, true
 \\server\instdir\dbdir\tdir, true

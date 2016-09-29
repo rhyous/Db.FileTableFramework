@@ -61,11 +61,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Business\HierarchyBuilderTests.cs" />
+    <Compile Include="Extensions\StringDirectoryExtensionsTests.cs" />
     <Compile Include="Managers\DirectoryManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repos\FileTableRepoTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\GetRelativePathTestData.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

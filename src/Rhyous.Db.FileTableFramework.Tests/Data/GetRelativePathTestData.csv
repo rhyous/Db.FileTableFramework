@@ -1,0 +1,4 @@
+Root, Path, Expected
+\\server\instdir\dbdir\tdir, \\server\instdir\dbdir\tdir\subdir1\subdir2, \subdir1\subdir2
+\\server\instdir\dbdir\tdir, \tdir\subdir1\subdir2, \subdir1\subdir2
+\\server\instdir\dbdir\tdir, tdir\subdir1\subdir2, \subdir1\subdir2

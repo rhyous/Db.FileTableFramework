@@ -1,4 +1,5 @@
-﻿using Rhyous.Db.FileTableFramework.Interfaces;
+﻿using Rhyous.Db.FileTableFramework.Business;
+using Rhyous.Db.FileTableFramework.Interfaces;
 using Rhyous.Db.FileTableFramework.Repos;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -15,7 +16,7 @@ namespace Rhyous.Db.FileTableFramework.Managers
             var pathId = DirectoryExists(table, dir, conn);
             if (string.IsNullOrWhiteSpace(pathId))
                 pathId = CreateDirectory(table, dir, conn);
-            var hierarchyId = FileTableRepo.CreateFile(table, file, FileTableRepo.NewChildHierarchyId(pathId), data, conn);
+            var hierarchyId = FileTableRepo.CreateFile(table, file, HierarchyBuilder.NewChildHierarchyId(pathId), data, conn);
             return hierarchyId;
         }
 
@@ -69,6 +70,12 @@ namespace Rhyous.Db.FileTableFramework.Managers
         }
         private IFileTableRepo _DirRepo;
 
+        public IHierarchyBuilder HierarchyBuilder
+        {
+            get { return _HierarchyBuilder ?? (_HierarchyBuilder = new HierarchyBuilder()); }
+            set { _HierarchyBuilder = value; }
+        }
+        private IHierarchyBuilder _HierarchyBuilder;
         #endregion
 
     }

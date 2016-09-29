@@ -1,4 +1,6 @@
-﻿using Rhyous.Db.FileTableFramework.Interfaces;
+﻿using Rhyous.Db.FileTableFramework.Business;
+using Rhyous.Db.FileTableFramework.Extensions;
+using Rhyous.Db.FileTableFramework.Interfaces;
 using Rhyous.Db.FileTableFramework.Managers;
 using System;
 using System.Data.SqlClient;
@@ -17,7 +19,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
             }
             if (string.IsNullOrWhiteSpace(pathId))
             {
-                pathId = NewChildHierarchyId(null);
+                pathId = HierarchyBuilder.NewChildHierarchyId(null);
             }
             var insertQry = "INSERT INTO {0} (name, file_stream, path_locator) "
                           + " OUTPUT Inserted.path_locator.ToString()"
@@ -72,7 +74,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
             cmd.Parameters.Add(new SqlParameter("@dir", dir));
             if (!string.IsNullOrWhiteSpace(pathId))
             {
-                pathId = NewChildHierarchyId(pathId);
+                pathId = HierarchyBuilder.NewChildHierarchyId(pathId);
                 CreateDirectoryQry = "INSERT INTO {0} (name, is_directory, path_locator)"
                     + " OUTPUT Inserted.path_locator.ToString()"
                     + " VALUES (@dir, 1, @pathId)";
@@ -96,57 +98,34 @@ namespace Rhyous.Db.FileTableFramework.Repos
             {
                 return "/";
             }
-            var tableDir = Path.GetFileName(tableRoot);
-            var tableDirAndPath = @"\" + Path.Combine(tableDir, path.Trim(@"\".ToCharArray()));
-            var qry = string.Format(PathExistsQry, table);
-            SqlCommand cmd = new SqlCommand(qry, conn);
-            cmd.Parameters.Add(new SqlParameter("@path", path));
-            cmd.Parameters.Add(new SqlParameter("@tableDirAndPath", tableDirAndPath));
-            cmd.Parameters.Add(new SqlParameter("@isDir", isDirectory));
-            var hierarchyId = cmd.ExecuteScalar() as string;
-            return hierarchyId;
+            var relativePath = path.GetRelativePath(tableRoot);
+            if (path.Length == relativePath.Length)
+                relativePath = path.GetRelativePath(tableRootFqdn);
+            var dirs = relativePath.SplitByDirectory();
+            string pathLocator = null;
+            foreach (var dir in dirs)
+            {
+                var qry1 = string.Format(GetPathLocatorQry, table, string.IsNullOrEmpty(pathLocator) ? "is null" : "= @pathLocator");
+                SqlCommand cmd1 = new SqlCommand(qry1, conn);
+                cmd1.Parameters.Add(new SqlParameter("@pathLocator", pathLocator));
+                cmd1.Parameters.Add(new SqlParameter("@dir", dir));
+                pathLocator = cmd1.ExecuteScalar() as string;
+                if (string.IsNullOrWhiteSpace(pathLocator))
+                    break;
+            }
+            return pathLocator;
         }
 
         internal bool IsTableRoot(string path, string tableRoot, string tableRootFqdn)
         {
             var tableRootRelative = Path.GetFileName(tableRoot);
-            return path.Equals(tableRoot, StringComparison.InvariantCultureIgnoreCase)
+            return string.IsNullOrEmpty(path)
+                || path.Equals(tableRoot, StringComparison.InvariantCultureIgnoreCase)
                 || path.Equals(tableRootFqdn, StringComparison.InvariantCultureIgnoreCase)
                 || path.TrimStart('\\').Equals(tableRootRelative, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public string NewChildHierarchyId(string pathId)
-        {
-            return NewChildHierarchyId(pathId, Guid.NewGuid());
-        }
-
-        internal string NewChildHierarchyId(string pathId, Guid guid)
-        {
-            var template = "{0}{1}.{2}.{3}/";
-            var bytes = guid.ToByteArray();
-            if (string.IsNullOrWhiteSpace(pathId))
-                pathId = "/"; //Root
-            var hierarchyId = string.Format(template, pathId, GetLong(0, 6, bytes), GetLong(6, 6, bytes), GetLong(12, 4, bytes));
-            return hierarchyId;
-        }
-
-        internal static long GetLong(int a, int b, byte[] bytes)
-        {
-            var subBytes = new byte[8];
-            Array.Copy(bytes, a, subBytes, 8 - b, b);
-            Array.Reverse(subBytes);
-            return BitConverter.ToInt64(subBytes, 0);
-        }
-
-        private const string PathExistsQry = "SELECT Path_Locator.ToString() FROM {0}"
-        + " WHERE file_stream.GetFileNamespacePath() = @path" // An exact match: \MyFileTable\MyPath
-        + " OR file_stream.GetFileNamespacePath() = '\\' + @path" // An exact match without leading slash: MyFileTable\MyPath
-        + " OR file_stream.GetFileNamespacePath() = @tableDirAndPath" // A subdir (with or without leading slash): MyPath or \MyPath
-        + " OR file_stream.GetFileNamespacePath(1) = @path" // A full path: \\server\instanceDir\dbDir\MyFileTable\MyPath
-        + " OR file_stream.GetFileNamespacePath(1, 2) = @path" // A full path with FQDN: \\server.domain.tld\instanceDir\dbDir\MyFileTable\MyPath
-        + " AND is_directory = @isDir";
-
-
+        private const string GetPathLocatorQry = "SELECT path_locator.ToString() FROM {0} WHERE parent_path_locator.ToString() {1} AND name = @dir";
 
         #region Dependency Injectable Properties
 
@@ -154,8 +133,13 @@ namespace Rhyous.Db.FileTableFramework.Repos
         {
             get { return _SqlConnManager ?? (_SqlConnManager = new SqlConnectionManager()); }
             set { _SqlConnManager = value; }
-        }
-        private ISqlConnectionManager _SqlConnManager;
+        } private ISqlConnectionManager _SqlConnManager;
+
+        public IHierarchyBuilder HierarchyBuilder
+        {
+            get { return _HierarchyBuilder ?? (_HierarchyBuilder = new HierarchyBuilder()); }
+            set { _HierarchyBuilder = value; }
+        } private IHierarchyBuilder _HierarchyBuilder;
 
         #endregion
     }
