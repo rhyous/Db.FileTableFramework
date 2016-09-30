@@ -47,7 +47,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sql\TestScript.sql" />
     <Content Include="Sql\Install Funcs and Procs.sql" />
   </ItemGroup>
   <ItemGroup />
