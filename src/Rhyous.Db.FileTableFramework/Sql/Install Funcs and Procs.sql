@@ -29,6 +29,6 @@ GO
 CREATE Procedure CreateDirectory(@table NVARCHAR(100), @path NVARCHAR(400), @id NVARCHAR(MAX) OUTPUT)
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].CreateDirectory;
 GO
-CREATE Procedure CreateFile(@table NVARCHAR(100), @file NVARCHAR(400), @data VARBINARY(MAX), @id NVARCHAR(MAX) OUTPUT)
+CREATE Procedure CreateFile(@table NVARCHAR(100), @file NVARCHAR(400), @data VARBINARY(MAX), @id uniqueidentifier OUTPUT)
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].CreateFile;
 GO

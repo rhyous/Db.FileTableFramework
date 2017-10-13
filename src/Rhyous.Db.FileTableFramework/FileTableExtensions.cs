@@ -2,6 +2,7 @@
 using Rhyous.Db.FileTableFramework.Interfaces;
 using Rhyous.Db.FileTableFramework.Managers;
 using Rhyous.Db.FileTableFramework.Repos;
+using System;
 using System.Data.SqlClient;
 
 namespace Rhyous.Db.FileTableFramework
@@ -69,7 +70,7 @@ namespace Rhyous.Db.FileTableFramework
         }
 
         [SqlProcedure()]
-        public static void CreateFile(string table, string path, byte[] data, out string id)
+        public static void CreateFile(string table, string path, byte[] data, out Guid id)
         {
             using (SqlConnection conn = new SqlConnection("context connection=true"))
             {
@@ -78,7 +79,7 @@ namespace Rhyous.Db.FileTableFramework
             }
         }
 
-        internal static string _CreateFile(string table, string path, byte[] data, SqlConnection conn, IFileTableManager ftManager = null)
+        internal static Guid _CreateFile(string table, string path, byte[] data, SqlConnection conn, IFileTableManager ftManager = null)
         {
             return (ftManager ?? new DirectoryManager()).CreateFile(table, path, data, conn);
         }

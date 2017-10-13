@@ -1,6 +1,7 @@
 ﻿using Rhyous.Db.FileTableFramework.Business;
 using Rhyous.Db.FileTableFramework.Interfaces;
 using Rhyous.Db.FileTableFramework.Repos;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
@@ -9,7 +10,7 @@ namespace Rhyous.Db.FileTableFramework.Managers
 {
     internal class DirectoryManager : IFileTableManager
     {
-        public string CreateFile(string table, string path, byte[] data, SqlConnection conn)
+        public Guid CreateFile(string table, string path, byte[] data, SqlConnection conn)
         {
             var file = Path.GetFileName(path);
             var dir = Path.GetDirectoryName(path);

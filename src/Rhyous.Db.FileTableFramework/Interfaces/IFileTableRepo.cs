@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace Rhyous.Db.FileTableFramework.Interfaces
@@ -19,7 +20,7 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// <param name="data">The file data</param>
         /// <param name="conn">The Sql Connection string</param>
         /// <returns></returns>
-        string CreateFile(string table, string fileName, string hierarchyid, byte[] data, SqlConnection conn);
+        Guid CreateFile(string table, string fileName, string hierarchyid, byte[] data, SqlConnection conn);
 
         /// <summary>
         /// Creates a directory at the specified location using the location HierachyId

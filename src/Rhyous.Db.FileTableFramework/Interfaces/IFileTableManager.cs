@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace Rhyous.Db.FileTableFramework.Interfaces
@@ -56,6 +57,6 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// <param name="data"></param>
         /// <param name="conn">The Sql Connection string</param>
         /// <returns></returns>
-        string CreateFile(string table, string path, byte[] data, SqlConnection conn);
+        Guid CreateFile(string table, string path, byte[] data, SqlConnection conn);
     }
 }

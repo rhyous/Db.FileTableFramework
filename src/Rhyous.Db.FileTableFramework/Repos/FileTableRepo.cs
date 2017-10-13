@@ -10,10 +10,10 @@ namespace Rhyous.Db.FileTableFramework.Repos
 {
     internal class FileTableRepo : IFileTableRepo
     {
-        public string CreateFile(string table, string fileName, string pathId, byte[] data, SqlConnection conn)
+        public Guid CreateFile(string table, string fileName, string pathId, byte[] data, SqlConnection conn)
         {
             SqlConnManager.IsConnected(conn);
-            if (!FileTableExists(table, conn))
+            if (!FileTableExists(table, conn)) // This is used to prevent SQL injection
             {
                 throw new Exception("Table does not exists or is not a FileTable.");
             }
@@ -22,15 +22,15 @@ namespace Rhyous.Db.FileTableFramework.Repos
                 pathId = HierarchyBuilder.NewChildHierarchyId(null);
             }
             var insertQry = "INSERT INTO {0} (name, file_stream, path_locator) "
-                          + " OUTPUT Inserted.path_locator.ToString()"
+                          + " OUTPUT Inserted.stream_id"
                           + " VALUES (@fileName, @data, HierarchyId::Parse(@pathId))";
             var qry = string.Format(insertQry, table);
             var cmd = new SqlCommand(qry, conn);
             cmd.Parameters.Add(new SqlParameter("@fileName", fileName));
             cmd.Parameters.Add(new SqlParameter("@data", data));
             cmd.Parameters.Add(new SqlParameter("@pathId", pathId));
-            var hierarchyid = cmd.ExecuteScalar() as string;
-            return hierarchyid;
+            var streamId = (Guid)cmd.ExecuteScalar();
+            return streamId;
         }
 
         public virtual string GetTableRootPath(string table, int option, SqlConnection conn)
