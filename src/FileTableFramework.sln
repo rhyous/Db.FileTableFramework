@@ -1,13 +1,47 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework", "Rhyous.Db.FileTableFramework\Rhyous.Db.FileTableFramework.csproj", "{9C7D916B-7AED-4425-BD74-FE9C39DB6294}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.12", "Rhyous.Db.FileTableFramework.12\Rhyous.Db.FileTableFramework.12.csproj", "{9C7D916B-7AED-4425-BD74-FE9C39DB6294}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.Tests", "Rhyous.Db.FileTableFramework.Tests\Rhyous.Db.FileTableFramework.Tests.csproj", "{1D57DE7D-B133-4C5F-B584-F33234390CF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.12.Tests", "Rhyous.Db.FileTableFramework.12.Tests\Rhyous.Db.FileTableFramework.12.Tests.csproj", "{1D57DE7D-B133-4C5F-B584-F33234390CF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{74F8E9A0-5087-41E8-A359-3BAC3A898CAF}"
+	ProjectSection(SolutionItems) = preProject
+		Sql\Install to Database.sql = Sql\Install to Database.sql
+		Sql\Test.sql = Sql\Test.sql
+	EndProjectSection
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject", "SharedProject\SharedProject.shproj", "{A11D0153-758B-4C83-901B-B9D8C1C04302}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.11", "Rhyous.Db.FileTableFramework.11\Rhyous.Db.FileTableFramework.11.csproj", "{AB449749-7582-43B3-963E-50F66ECAF042}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.13", "Rhyous.Db.FileTableFramework.13\Rhyous.Db.FileTableFramework.13.csproj", "{AB449749-7582-43B3-963E-50F66ECAF013}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.14", "Rhyous.Db.FileTableFramework.14\Rhyous.Db.FileTableFramework.14.csproj", "{AB449749-7582-43B3-963E-50F66ECAF014}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedProject.Tests", "SharedProject.Tests\SharedProject.Tests.shproj", "{0677C6E3-50DE-4720-BA9E-B4A638460A9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.11.Tests", "Rhyous.Db.FileTableFramework.11.Tests\Rhyous.Db.FileTableFramework.11.Tests.csproj", "{1D57DE7D-B133-4C5F-B584-F33234390C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.13.Tests", "Rhyous.Db.FileTableFramework.13.Tests\Rhyous.Db.FileTableFramework.13.Tests.csproj", "{1D57DE7D-B133-4C5F-B584-F33234390C13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rhyous.Db.FileTableFramework.14.Tests", "Rhyous.Db.FileTableFramework.14.Tests\Rhyous.Db.FileTableFramework.14.Tests.csproj", "{1D57DE7D-B133-4C5F-B584-F33234390C14}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SharedProject.Tests\SharedProject.Tests.projitems*{0677c6e3-50de-4720-ba9e-b4a638460a9d}*SharedItemsImports = 13
+		SharedProject.Tests\SharedProject.Tests.projitems*{1d57de7d-b133-4c5f-b584-f33234390c11}*SharedItemsImports = 4
+		SharedProject.Tests\SharedProject.Tests.projitems*{1d57de7d-b133-4c5f-b584-f33234390c13}*SharedItemsImports = 4
+		SharedProject.Tests\SharedProject.Tests.projitems*{1d57de7d-b133-4c5f-b584-f33234390c14}*SharedItemsImports = 4
+		SharedProject.Tests\SharedProject.Tests.projitems*{1d57de7d-b133-4c5f-b584-f33234390cf2}*SharedItemsImports = 4
+		SharedProject\SharedProject.projitems*{9c7d916b-7aed-4425-bd74-fe9c39db6294}*SharedItemsImports = 4
+		SharedProject\SharedProject.projitems*{a11d0153-758b-4c83-901b-b9d8c1c04302}*SharedItemsImports = 13
+		SharedProject\SharedProject.projitems*{ab449749-7582-43b3-963e-50f66ecaf013}*SharedItemsImports = 4
+		SharedProject\SharedProject.projitems*{ab449749-7582-43b3-963e-50f66ecaf014}*SharedItemsImports = 4
+		SharedProject\SharedProject.projitems*{ab449749-7582-43b3-963e-50f66ecaf042}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -21,8 +55,35 @@ Global
 		{1D57DE7D-B133-4C5F-B584-F33234390CF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D57DE7D-B133-4C5F-B584-F33234390CF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D57DE7D-B133-4C5F-B584-F33234390CF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB449749-7582-43B3-963E-50F66ECAF014}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D57DE7D-B133-4C5F-B584-F33234390C14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9BBB705A-2401-44BF-BE01-8B17671F15CD}
 	EndGlobalSection
 EndGlobal
