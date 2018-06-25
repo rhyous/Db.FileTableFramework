@@ -13,11 +13,20 @@ Done
 
 ## Functions Provided
 
-- FileTableExists 
 - DirectoryExists
 - FileExists
+- FileTableExists
+ GetFilesInDirectory
 
 ## Stored Procedures Provided
 
-- CreateFile
 - CreateDirectory
+- CreateFile
+- CreateTextFile
+- DeleteFileByStreamId
+- DeleteFileByPathLocator
+- DeleteFileByPath
+- RenameFileByStreamId
+- RenameFileByPathLocator
+- RenameFileByPath
+
