@@ -75,12 +75,12 @@ GO
 CREATE Procedure DeleteFileByPath(@table NVARCHAR(100), @path NVARCHAR(400))
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].DeleteFileByPath;
 GO
-CREATE Procedure RenameFileByStreamId(@table NVARCHAR(100), @stream_id UniqueIdentifier, @newFilename NVARCHAR(400))
+CREATE Procedure RenameFileByStreamId(@table NVARCHAR(100), @stream_id UniqueIdentifier, @newFilename NVARCHAR(255))
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].RenameFileByStreamId;
 GO
-CREATE Procedure RenameFileByPathLocator(@table NVARCHAR(100), @path_locator HierarchyId, @newFilename NVARCHAR(400))
+CREATE Procedure RenameFileByPathLocator(@table NVARCHAR(100), @path_locator HierarchyId, @newFilename NVARCHAR(255))
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].RenameFileByPathLocator;
 GO
-CREATE Procedure RenameFileByPath(@table NVARCHAR(100), @path NVARCHAR(400), @newFilename NVARCHAR(400))
+CREATE Procedure RenameFileByPath(@table NVARCHAR(100), @path NVARCHAR(400), @newFilename NVARCHAR(255))
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].RenameFileByPath;
 GO
