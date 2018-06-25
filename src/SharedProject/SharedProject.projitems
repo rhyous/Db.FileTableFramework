@@ -18,7 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IFileTableRepo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHierarchyBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISqlConnectionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Managers\DirectoryManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\FileTableManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Managers\SqlConnectionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\File.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Repos\FileTableRepo.cs" />

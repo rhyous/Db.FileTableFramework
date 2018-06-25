@@ -32,8 +32,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
             var cmd = new SqlCommand(qry, conn);
             cmd.Parameters.Add(new SqlParameter("@fileName", fileName));
             cmd.Parameters.Add(new SqlParameter("@data", data));
-            var param3 = new SqlParameter("@pathId", pathId) { UdtTypeName = Constants.HierarchyId };
-            cmd.Parameters.Add(param3);
+            cmd.Parameters.Add(new SqlParameter("@pathId", pathId) { UdtTypeName = Constants.HierarchyId });
             var streamId = (Guid)cmd.ExecuteScalar();
             PipeScalar(SqlDbType.UniqueIdentifier, streamId);
             return streamId;
@@ -174,10 +173,75 @@ namespace Rhyous.Db.FileTableFramework.Repos
             SqlContext.Pipe.Send(record);           
         }
 
-        private const string GetPathLocatorQry = "SELECT path_locator FROM {0} WHERE parent_path_locator {1} AND name = @dir";
+        public int DeleteFile(string table, Guid stream_id, SqlConnection conn)
+        {
+            SqlConnManager.IsConnected(conn);
+            if (!FileTableExists(table, conn)) // This is used to prevent SQL injection
+            {
+                throw new Exception("Table does not exists or is not a FileTable.");
+            }
+            var deleteQry = "DELETE FROM {0} WHERE stream_id = @id";
+            var qry = string.Format(deleteQry, table);
+            var cmd = new SqlCommand(qry, conn);
+            cmd.Parameters.Add(new SqlParameter("@id", SqlDbType.UniqueIdentifier) { Value = stream_id });
+            return cmd.ExecuteNonQuery();
+        }
 
-        internal const string GetFilesInDirectoryQuery = "SELECT * FROM {0} where parent_path_locator = @dirId";
-        internal const string ExcludeDirectories = " AND is_directory = 0";
+        public int DeleteFile(string table, SqlHierarchyId hierarchyid, SqlConnection conn)
+        {
+            SqlConnManager.IsConnected(conn);
+            if (!FileTableExists(table, conn)) // This is used to prevent SQL injection
+            {
+                throw new Exception("Table does not exists or is not a FileTable.");
+            }
+            var deleteQry = "DELETE FROM {0} WHERE path_locator = @hierarchyid";
+            var qry = string.Format(deleteQry, table);
+            var cmd = new SqlCommand(qry, conn);
+            cmd.Parameters.Add(new SqlParameter("@hierarchyid", hierarchyid) { UdtTypeName = Constants.HierarchyId });
+            return cmd.ExecuteNonQuery();
+        }
+
+        public int RenameFile(string table, Guid stream_id, string filename, SqlConnection conn)
+        {
+            SqlConnManager.IsConnected(conn);
+            if (!FileTableExists(table, conn)) // This is used to prevent SQL injection
+            {
+                throw new Exception("Table does not exists or is not a FileTable.");
+            }
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                throw new ArgumentNullException("filename");
+            }
+            var insertQry = "UPDATE {0} SET Name = @fileName WHERE stream_id = @id";
+            var qry = string.Format(insertQry, table);
+            var cmd = new SqlCommand(qry, conn);
+            cmd.Parameters.Add(new SqlParameter("@fileName", filename));
+            cmd.Parameters.Add(new SqlParameter("@id", stream_id));
+            return cmd.ExecuteNonQuery();
+        }
+
+        public int RenameFile(string table, SqlHierarchyId hierarchyid, string filename, SqlConnection conn)
+        {
+            SqlConnManager.IsConnected(conn);
+            if (!FileTableExists(table, conn)) // This is used to prevent SQL injection
+            {
+                throw new Exception("Table does not exists or is not a FileTable.");
+            }
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                throw new ArgumentNullException("filename");
+            }
+            var insertQry = "UPDATE {0} SET Name = @fileName WHERE path_locator = @hierarchyId";
+            var qry = string.Format(insertQry, table);
+            var cmd = new SqlCommand(qry, conn);
+            cmd.Parameters.Add(new SqlParameter("@fileName", filename));
+            cmd.Parameters.Add(new SqlParameter("@hierarchyId", hierarchyid) { UdtTypeName = Constants.HierarchyId });
+            return cmd.ExecuteNonQuery();
+        }
+
+        private const string GetPathLocatorQry = "SELECT path_locator FROM {0} WHERE parent_path_locator {1} AND name = @dir";
+        private const string GetFilesInDirectoryQuery = "SELECT * FROM {0} where parent_path_locator = @dirId";
+        private const string ExcludeDirectories = " AND is_directory = 0";
 
         #region Dependency Injectable Properties
 

@@ -15,5 +15,28 @@ EXEC CreateFile @table, 'A\B\C\D\hw.txt', 0x48656C6C6F2C20776F726C6421
  -- Test Create text file
 EXEC CreateTextFile @table, 'A\B\C\D\hw2.txt', 'Hello, world!' -- Test Create dir and file
 
-SELECT * FROM GetFilesInDirectory(@table, 'A\B\C\', 0) -- 0 = include directories
-SELECT * FROM GetFilesInDirectory(@table, 'A\B\C\', 1) -- 1 = exclude directories
+-- Test Create text file and delete it
+EXEC CreateTextFile @table, 'A\B\C\D\deleteByStreamId.txt', 'I must be deleted by stream_id.'
+DECLARE @stream_id UniqueIdentifier = (SELECT TOP 1 stream_Id from OrganizationFile where NAME = 'deleteByStreamId.txt')
+EXEC DeletefileByStreamId @table, @stream_id
+
+EXEC CreateTextFile @table, 'A\B\C\D\deleteByHierarchyId.txt', 'I must be deleted path_locator.'
+DECLARE @path_locator HierarchyId = (SELECT TOP 1 path_locator from OrganizationFile where NAME = 'deleteByHierarchyId.txt')
+EXEC DeletefileByPathLocator @table, @path_locator
+
+EXEC CreateTextFile @table, 'A\B\C\D\deleteByPath.txt', 'I must be deleted by full path.'
+EXEC DeletefileByPath @table, 'A\B\C\D\deleteByPath.txt'
+
+-- Test Create text file and rename it
+EXEC CreateTextFile @table, 'A\B\C\D\RenameByStreamId.txt', 'I must be renamed by stream_id.'
+SET @stream_id = (SELECT TOP 1 stream_Id from OrganizationFile where NAME = 'RenameByStreamId.txt')
+EXEC RenamefileByStreamId @table, @stream_id, 'RenameByStreamId1.txt'
+
+EXEC CreateTextFile @table, 'A\B\C\D\RenameByHierarchyId.txt', 'I must be renamed path_locator.'
+SET @path_locator = (SELECT TOP 1 path_locator from OrganizationFile where NAME = 'RenameByHierarchyId.txt')
+EXEC RenamefileByPathLocator @table, @path_locator, 'RenameByHierarchyId1.txt'
+
+EXEC CreateTextFile @table, 'A\B\C\D\RenameByPath.txt', 'I must be renamed by full path.'
+EXEC RenamefileByPath @table, 'A\B\C\D\RenameByPath.txt', 'RenameByPath1.txt'
+
+SELECT * FROM OrganizationFile

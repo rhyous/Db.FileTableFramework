@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Rhyous.Db.FileTableFramework.Managers
 {
-    internal class DirectoryManager : IFileTableManager
+    internal class FileTableManager : IFileTableManager
     {
         public Guid CreateFile(string table, string path, byte[] data, SqlConnection conn)
         {
@@ -68,6 +68,26 @@ namespace Rhyous.Db.FileTableFramework.Managers
         public IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool excludeDirectories)
         {
             return FileTableRepo.GetFilesInDirectory(table, directory, conn, excludeDirectories);
+        }
+
+        public int DeleteFile(string table, Guid stream_id, SqlConnection conn)
+        {
+            return FileTableRepo.DeleteFile(table, stream_id, conn);
+        }
+
+        public int DeleteFile(string table, SqlHierarchyId hierarchyid, SqlConnection conn)
+        {
+            return FileTableRepo.DeleteFile(table, hierarchyid, conn);
+        }
+
+        public int RenameFile(string table, Guid stream_id, string filename, SqlConnection conn)
+        {
+            return FileTableRepo.RenameFile(table, stream_id, filename, conn);
+        }
+
+        public int RenameFile(string table, SqlHierarchyId hierarchyid, string filename, SqlConnection conn)
+        {
+            return FileTableRepo.RenameFile(table, hierarchyid, filename, conn);
         }
 
         #region Dependency Injectable Properties

@@ -71,5 +71,38 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// <param name="excludeDirectories">Whether to exclude directories.</param>
         /// <returns></returns>
         IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool excludeDirectories);
+
+        /// <summary>
+        /// Deletes a file by id, which is a Guid.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="stream_id"></param>
+        /// <returns>The number of deleted rows.</returns>        
+        int DeleteFile(string table, Guid stream_id, SqlConnection conn);
+
+        /// <summary>
+        /// Deletes a file by path_locator, which is a SqlHierarchyId.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="hierarchyid"></param>
+        /// <returns>The number of deleted rows.</returns>
+        int DeleteFile(string table, SqlHierarchyId hierarchyid, SqlConnection conn);
+        /// <summary>
+        /// Deletes a file by id, which is a Guid.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="stream_id"></param>
+        /// <param name="filename"></param>
+        /// <returns>The number of deleted rows.</returns>        
+        int RenameFile(string table, Guid stream_id, string filename, SqlConnection conn);
+
+        /// <summary>
+        /// Deletes a file by path_locator, which is a SqlHierarchyId.
+        /// </summary>
+        /// <param name="table"></param>
+        /// <param name="hierarchyid"></param>
+        /// <param name="filename"></param>
+        /// <returns>The number of deleted rows.</returns>
+        int RenameFile(string table, SqlHierarchyId hierarchyid, string filename, SqlConnection conn);
     }
 }

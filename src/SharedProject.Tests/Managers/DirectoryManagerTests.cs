@@ -29,7 +29,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             var table = "MyTable";
             var tableRoot = @"\MyTableDir";
             var dirStructure = @"dir1\dir2\dir3";
-            var dirManager = new DirectoryManager();
+            var dirManager = new FileTableManager();
             var fileTableRepo = new Mock<FileTableRepo>();
             var id1 = SqlHierarchyId.Parse("/0/");
             var id2 = SqlHierarchyId.Parse("/0/1/");
@@ -55,7 +55,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             var table = "MyTable";
             var tableRoot = @"\MyTableDir";
             var dirStructure = @"dir1\dir2\dir3";
-            var dirManager = new DirectoryManager();
+            var dirManager = new FileTableManager();
             var fileTableRepo = new Mock<FileTableRepo>();
             var stringId = "/0/";
             var id = SqlHierarchyId.Parse(stringId);
@@ -77,7 +77,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             var table = "MyTable";
             var tableRoot = @"\MyTableDir";
             var dirStructure = @"dir1\dir2\dir3";
-            var dirManager = new DirectoryManager();
+            var dirManager = new FileTableManager();
             var fileTableRepo = new Mock<FileTableRepo>();
             fileTableRepo.Setup(m => m.FindPath(table, It.IsAny<string>(), true, It.IsAny<SqlConnection>(), false)).Returns<string>(null);
             dirManager.FileTableRepo = fileTableRepo.Object;
@@ -100,7 +100,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             var tableRoot = @"\MyTableDir";
             var dirStructure = @"dir1\dir2\dir3";
             var id = SqlHierarchyId.Parse("/0/1/2/3/");
-            var dirManager = new DirectoryManager();
+            var dirManager = new FileTableManager();
             var fileTableRepo = new Mock<FileTableRepo>();
             fileTableRepo.Setup(m => m.FindPath(It.IsAny<string>(), It.IsAny<string>(), true, null, false)).Returns(id);
             dirManager.FileTableRepo = fileTableRepo.Object;
@@ -124,7 +124,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             var tableRoot = @"\MyTableDir";
             var dirStructure = @"dir1\dir2\file.txt";
             var id = SqlHierarchyId.Parse("/1/2/3/");
-            var dirManager = new DirectoryManager();
+            var dirManager = new FileTableManager();
             var fileTableRepo = new Mock<FileTableRepo>();
             fileTableRepo.Setup(m => m.FindPath(It.IsAny<string>(), It.IsAny<string>(), false, null, false)).Returns(id);
             dirManager.FileTableRepo = fileTableRepo.Object;

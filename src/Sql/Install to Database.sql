@@ -12,12 +12,19 @@ DROP PROCEDURE CreateDirectory
 DROP PROCEDURE CreateFile
 DROP PROCEDURE CreateTextFile
 DROP FUNCTION GetFilesInDirectory
+DROP PROCEDURE DeleteFileByStreamId
+DROP PROCEDURE DeleteFileByPathLocator
+DROP PROCEDURE DeleteFileByPath
+DROP PROCEDURE RenameFileByStreamId
+DROP PROCEDURE RenameFileByPathLocator
+DROP PROCEDURE RenameFileByPath
 GO
 
 DROP ASSEMBLY FileTableFramework
 GO
 
-CREATE ASSEMBLY FileTableFramework from 'C:\Program Files (x86)\Rhyous\Db.FileTableFramework\Rhyous.Db.FileTableFramework.dll' WITH PERMISSION_SET = SAFE
+CREATE ASSEMBLY FileTableFramework from 'C:\Program Files\Rhyous\Db.FileTableFramework\Rhyous.Db.FileTableFramework.dll' WITH PERMISSION_SET = SAFE
+--CREATE ASSEMBLY FileTableFramework from 'C:\Program Files (x86)\Rhyous\Db.FileTableFramework\Rhyous.Db.FileTableFramework.dll' WITH PERMISSION_SET = SAFE
 GO
 
 CREATE FUNCTION FileTableExists(@table NVARCHAR(100)) RETURNS BIT
@@ -58,4 +65,22 @@ RETURNS TABLE (stream_id uniqueidentifier
 , is_temporary bit
 )  
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].GetFilesInDirectory;
+GO
+CREATE Procedure DeleteFileByStreamId(@table NVARCHAR(100), @stream_id UniqueIdentifier)
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].DeleteFileByStreamId;
+GO
+CREATE Procedure DeleteFileByPathLocator(@table NVARCHAR(100), @path_locator HierarchyId)
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].DeleteFileByPathLocator;
+GO
+CREATE Procedure DeleteFileByPath(@table NVARCHAR(100), @path NVARCHAR(400))
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].DeleteFileByPath;
+GO
+CREATE Procedure RenameFileByStreamId(@table NVARCHAR(100), @stream_id UniqueIdentifier, @newFilename NVARCHAR(400))
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].RenameFileByStreamId;
+GO
+CREATE Procedure RenameFileByPathLocator(@table NVARCHAR(100), @path_locator HierarchyId, @newFilename NVARCHAR(400))
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].RenameFileByPathLocator;
+GO
+CREATE Procedure RenameFileByPath(@table NVARCHAR(100), @path NVARCHAR(400), @newFilename NVARCHAR(400))
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].RenameFileByPath;
 GO
