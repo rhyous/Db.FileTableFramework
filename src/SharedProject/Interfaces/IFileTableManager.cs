@@ -37,8 +37,9 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// even if multiple directory levels need to be create: \a\b\c
         /// </param>
         /// <param name="conn">The Sql Connection string</param>
+        /// <param name="pipeToOutput">Whether to pipe the output or not.</param>
         /// <returns>The directory's HierarchyId.</returns>
-        SqlHierarchyId CreateDirectory(string table, string path, SqlConnection conn);
+        SqlHierarchyId CreateDirectory(string table, string path, SqlConnection conn, bool pipeToOutput);
 
         /// <summary>
         /// Creates A directory structure, such as: a\b\c
@@ -47,8 +48,9 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// <param name="dirsToCreate">A stack of directories to create.</param>
         /// <param name="pathId">The path_locator or HierarchyId of the starting directory.
         /// <param name="conn"></param>
+        /// <param name="pipeToOutput">Whether to pipe the output or not.</param>
         /// <returns></returns>
-        SqlHierarchyId CreateDirectoryStructure(string table, Stack<string> dirsToCreate, SqlHierarchyId pathId, SqlConnection conn);
+        SqlHierarchyId CreateDirectoryStructure(string table, Stack<string> dirsToCreate, SqlHierarchyId pathId, SqlConnection conn, bool pipeToOutput);
         
         /// <summary>
         /// Adds a file to a FileTable. Allows for specifying a path.

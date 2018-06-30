@@ -10,7 +10,7 @@ using System.Text;
 namespace Rhyous.Db.FileTableFramework.Tests.Managers
 {
     [TestClass]
-    public class DirectoryManagerTests
+    public class FileTableManagerTests
     {
 
         public static string ByteArrayToString(byte[] ba)
@@ -42,7 +42,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             dirManager.FileTableRepo = fileTableRepo.Object;
 
             // Act
-            var pathId = dirManager.CreateDirectory(table, dirStructure, null);
+            var pathId = dirManager.CreateDirectory(table, dirStructure, null, true);
 
             // Assert
             Assert.AreEqual(id3, pathId);
@@ -64,7 +64,7 @@ namespace Rhyous.Db.FileTableFramework.Tests.Managers
             dirManager.FileTableRepo = fileTableRepo.Object;
 
             // Act
-            var pathId = dirManager.CreateDirectory(table, dirStructure, null);
+            var pathId = dirManager.CreateDirectory(table, dirStructure, null, true);
 
             // Assert
             Assert.AreEqual(stringId, pathId.ToString());

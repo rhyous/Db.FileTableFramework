@@ -163,7 +163,7 @@ namespace Rhyous.Db.FileTableFramework
         /// </summary>
         internal static void _CreateDirectory(string table, string path, SqlConnection conn, IFileTableManager ftManager = null)
         {
-            (ftManager ?? new FileTableManager()).CreateDirectory(table, path, conn);
+            (ftManager ?? new FileTableManager()).CreateDirectory(table, path, conn, true);
         }
         #endregion
 
@@ -204,11 +204,6 @@ namespace Rhyous.Db.FileTableFramework
         {
             return (ftManager ?? new FileTableManager()).CreateFile(table, path, data, conn);
         }
-
-        [SqlFunction(DataAccess = DataAccessKind.Read, SystemDataAccess = SystemDataAccessKind.Read,
-            FillRowMethodName = "FillFileRow",
-            TableDefinition = "stream_id uniqueidentifier, file_stream varbinary(max)")]
-        //TableDefinition = "stream_id uniqueidentifier, file_stream varbinary(max), name nvarchar(255), path_locator hierarchyid, creation_time datetimeoffset(7), last_write_time datetimeoffset(7), last_access_time datetimeoffset(7), is_directory bit, is_offline bit, is_hidden bit, is_readonly bit, is_archive bit, is_system bit, is_temporary bit")]
 
         #endregion
 

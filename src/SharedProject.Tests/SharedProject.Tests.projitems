@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Business\HierarchyBuilderTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\StringDirectoryExtensionsTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Managers\DirectoryManagerTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Managers\FileTableManagerTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Repos\FileTableRepoTests.cs" />
   </ItemGroup>
   <ItemGroup>

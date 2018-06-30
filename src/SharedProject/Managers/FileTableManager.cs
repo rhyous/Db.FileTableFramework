@@ -16,19 +16,19 @@ namespace Rhyous.Db.FileTableFramework.Managers
             var file = Path.GetFileName(path);
             var dir = Path.GetDirectoryName(path);
             var pathId = DirectoryExists(table, dir, conn);
-            if (pathId.IsNull)
-                pathId = CreateDirectory(table, dir, conn);
+            if (pathId.IsNull && !string.IsNullOrWhiteSpace(dir))
+                pathId = CreateDirectory(table, dir, conn, false);
             var hierarchyId = FileTableRepo.CreateFile(table, file, HierarchyBuilder.NewChildHierarchyId(pathId), data, conn);
             return hierarchyId;
         }
 
-        public virtual SqlHierarchyId CreateDirectory(string table, string path, SqlConnection conn)
+        public virtual SqlHierarchyId CreateDirectory(string table, string path, SqlConnection conn, bool pipeToOutput)
         {
             SqlHierarchyId pathId;
-            var tmpPath = path.TrimEnd('\\');
+            var tmpPath = path.Trim('\\');
             var dirsToCreate = new Stack<string>();
             pathId = SqlHierarchyId.Null;
-            while (pathId.IsNull && !string.IsNullOrWhiteSpace(tmpPath))
+            while (pathId.IsNull && !string.IsNullOrWhiteSpace(tmpPath.Trim('\\')))
             {
                 pathId = DirectoryExists(table, tmpPath, conn);
                 if (pathId.IsNull)
@@ -39,18 +39,17 @@ namespace Rhyous.Db.FileTableFramework.Managers
             }
             if (dirsToCreate.Count > 0)
             {
-                pathId = CreateDirectoryStructure(table, dirsToCreate, pathId, conn);
+                pathId = CreateDirectoryStructure(table, dirsToCreate, pathId, conn, pipeToOutput);
             }
             return pathId;
         }
 
-        public virtual SqlHierarchyId CreateDirectoryStructure(string table, Stack<string> dirsToCreate, SqlHierarchyId pathId, SqlConnection conn)
+        public virtual SqlHierarchyId CreateDirectoryStructure(string table, Stack<string> dirsToCreate, SqlHierarchyId pathId, SqlConnection conn, bool pipeToOutput)
         {
             while (dirsToCreate.Count > 0)
             {
                 var dir = dirsToCreate.Pop();
-                var output = dirsToCreate.Count == 0;
-                pathId = FileTableRepo.CreateDirectory(table, dir, pathId, conn, output);
+                pathId = FileTableRepo.CreateDirectory(table, dir, pathId, conn, pipeToOutput);
             }
             return pathId;
         }
