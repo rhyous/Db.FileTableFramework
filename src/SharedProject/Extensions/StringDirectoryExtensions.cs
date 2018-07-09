@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rhyous.Db.FileTableFramework.Extensions
 {
@@ -25,7 +26,7 @@ namespace Rhyous.Db.FileTableFramework.Extensions
         public static string[] SplitByDirectory(this string path)
         {
             var splitChars = @"\/".ToCharArray();
-            return path.Trim().Trim(splitChars).Split(splitChars);
+            return path.Trim().Trim(splitChars).Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }
