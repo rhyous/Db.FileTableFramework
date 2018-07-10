@@ -70,9 +70,10 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// <param name="directory">The path of the file. It must be a full directory path,
         /// or a path relative from, but not including, the table's root directory.</param>
         /// <param name="conn">The Sql Connection string.</param>
+        /// <param name="recursive">If true, gets all files even if under a subfolder.</param>
         /// <param name="excludeDirectories">Whether to exclude directories.</param>
         /// <returns></returns>
-        IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool excludeDirectories);
+        IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool recursive, bool excludeData, bool excludeDirectories);
 
         /// <summary>
         /// Deletes a file by id, which is a Guid.

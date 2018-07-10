@@ -71,9 +71,10 @@ namespace Rhyous.Db.FileTableFramework.Interfaces
         /// <param name="table"></param>
         /// <param name="directory"></param>
         /// <param name="conn"></param>
+        /// <param name="recursive">Incldue directories or not.</param>
         /// <param name="excludeDirectories">Incldue directories or not.</param>
         /// <returns></returns>
-        IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool excludeDirectories);
+        IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool recursive, bool excludeData, bool excludeDirectories);
 
         /// <summary>
         /// Deletes a file by id, which is a Guid.

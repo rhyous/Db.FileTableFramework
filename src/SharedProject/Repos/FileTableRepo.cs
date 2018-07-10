@@ -59,7 +59,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
             SqlConnManager.IsConnected(conn);
             const string qry = "SELECT Count(name) FROM Sys.Tables WHERE name = @table and is_filetable = 1";
             var cmd = new SqlCommand(qry, conn);
-            cmd.Parameters.Add(new SqlParameter("@table", table));
+            cmd.Parameters.Add(new SqlParameter("@table", table.Trim('[', ']')));
             var result = (int)cmd.ExecuteScalar();
             return result == 1;
         }
@@ -130,12 +130,10 @@ namespace Rhyous.Db.FileTableFramework.Repos
             return pathLocator;
         }
 
-        public IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool excludeDirectories = true)
+        public IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool recursive, bool excludeData, bool excludeDirectories = true)
         {
-            var dirId = FindPath(table, directory, true, conn);
-            var qry = string.Format(GetFilesInDirectoryQuery, table);
-            if (excludeDirectories)
-                qry += ExcludeDirectories;
+            SqlHierarchyId dirId = FindPath(table, directory, true, conn);
+            string qry = BuildGetFilesQuery(table, recursive, excludeData, excludeDirectories);
             SqlCommand cmd1 = new SqlCommand(qry, conn);
             var param1 = new SqlParameter("@dirId", dirId) { UdtTypeName = Constants.HierarchyId };
             cmd1.Parameters.Add(param1);
@@ -143,7 +141,16 @@ namespace Rhyous.Db.FileTableFramework.Repos
             {
                 return reader.ToFiles();
             }
-        }        
+        }
+
+        internal string BuildGetFilesQuery(string table, bool recursive, bool excludeData, bool excludeDirectories)
+        {
+            string qry = recursive ? GetFilesInDirectoryRecursiveQuery : GetFilesInDirectoryQuery;
+            qry = string.Format(qry, table, excludeData ? " null as " : "");
+            if (excludeDirectories)
+                qry += ExcludeDirectories;
+            return qry;
+        }
 
         internal bool IsTableRoot(string path, string tableRoot, string tableRootFqdn)
         {
@@ -240,7 +247,8 @@ namespace Rhyous.Db.FileTableFramework.Repos
         }
 
         private const string GetPathLocatorQry = "SELECT path_locator FROM {0} WHERE parent_path_locator {1} AND name = @dir";
-        private const string GetFilesInDirectoryQuery = "SELECT * FROM {0} where parent_path_locator = @dirId";
+        private const string GetFilesInDirectoryQuery = "SELECT [stream_id],{1}[file_stream],[name],[path_locator],[parent_path_locator],[file_type],[cached_file_size],[creation_time],[last_write_time],[last_access_time],[is_directory],[is_offline],[is_hidden],[is_readonly],[is_archive],[is_system],[is_temporary] FROM {0} WHERE parent_path_locator = @dirId";
+        private const string GetFilesInDirectoryRecursiveQuery = "SELECT [stream_id],{1}[file_stream],[name],[path_locator],[parent_path_locator],[file_type],[cached_file_size],[creation_time],[last_write_time],[last_access_time],[is_directory],[is_offline],[is_hidden],[is_readonly],[is_archive],[is_system],[is_temporary] FROM {0} WHERE path_locator.IsDescendantOf(@dirId) = 1";
         private const string ExcludeDirectories = " AND is_directory = 0";
 
         #region Dependency Injectable Properties

@@ -45,7 +45,7 @@ GO
 CREATE Procedure CreateTextFile(@table NVARCHAR(100), @file NVARCHAR(400), @text NVARCHAR(Max))
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].CreateTextFile;
 GO
-CREATE FUNCTION GetFilesInDirectory(@table NVARCHAR(100), @directory NVARCHAR(MAX), @excludeDirectories bit)
+CREATE FUNCTION GetFilesInDirectory(@table NVARCHAR(100), @directory NVARCHAR(MAX), @recursive bit, @excludeData bit, @excludeDirectories bit)
 RETURNS TABLE (stream_id uniqueidentifier
 , file_stream varbinary(max)
 , name nvarchar(255)
