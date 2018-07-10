@@ -130,7 +130,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
             return pathLocator;
         }
 
-        public IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool recursive, bool excludeData, bool excludeDirectories = true)
+        public IEnumerable<File> ListFiles(string table, string directory, SqlConnection conn, bool recursive, bool excludeData, bool excludeDirectories = true)
         {
             SqlHierarchyId dirId = FindPath(table, directory, true, conn);
             string qry = BuildGetFilesQuery(table, recursive, excludeData, excludeDirectories);
@@ -145,7 +145,7 @@ namespace Rhyous.Db.FileTableFramework.Repos
 
         internal string BuildGetFilesQuery(string table, bool recursive, bool excludeData, bool excludeDirectories)
         {
-            string qry = recursive ? GetFilesInDirectoryRecursiveQuery : GetFilesInDirectoryQuery;
+            string qry = recursive ? ListFilesRecursiveQuery : ListFilesQuery;
             qry = string.Format(qry, table, excludeData ? " null as " : "");
             if (excludeDirectories)
                 qry += ExcludeDirectories;
@@ -247,8 +247,8 @@ namespace Rhyous.Db.FileTableFramework.Repos
         }
 
         private const string GetPathLocatorQry = "SELECT path_locator FROM {0} WHERE parent_path_locator {1} AND name = @dir";
-        private const string GetFilesInDirectoryQuery = "SELECT [stream_id],{1}[file_stream],[name],[path_locator],[parent_path_locator],[file_type],[cached_file_size],[creation_time],[last_write_time],[last_access_time],[is_directory],[is_offline],[is_hidden],[is_readonly],[is_archive],[is_system],[is_temporary] FROM {0} WHERE parent_path_locator = @dirId";
-        private const string GetFilesInDirectoryRecursiveQuery = "SELECT [stream_id],{1}[file_stream],[name],[path_locator],[parent_path_locator],[file_type],[cached_file_size],[creation_time],[last_write_time],[last_access_time],[is_directory],[is_offline],[is_hidden],[is_readonly],[is_archive],[is_system],[is_temporary] FROM {0} WHERE path_locator.IsDescendantOf(@dirId) = 1";
+        private const string ListFilesQuery = "SELECT [stream_id],{1}[file_stream],[name],[path_locator],[parent_path_locator],[file_type],[cached_file_size],[creation_time],[last_write_time],[last_access_time],[is_directory],[is_offline],[is_hidden],[is_readonly],[is_archive],[is_system],[is_temporary] FROM {0} WHERE parent_path_locator = @dirId";
+        private const string ListFilesRecursiveQuery = "SELECT [stream_id],{1}[file_stream],[name],[path_locator],[parent_path_locator],[file_type],[cached_file_size],[creation_time],[last_write_time],[last_access_time],[is_directory],[is_offline],[is_hidden],[is_readonly],[is_archive],[is_system],[is_temporary] FROM {0} WHERE path_locator.IsDescendantOf(@dirId) = 1";
         private const string ExcludeDirectories = " AND is_directory = 0";
 
         #region Dependency Injectable Properties

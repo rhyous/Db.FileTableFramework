@@ -11,7 +11,7 @@ DROP FUNCTION FileExists
 DROP PROCEDURE CreateDirectory
 DROP PROCEDURE CreateFile
 DROP PROCEDURE CreateTextFile
-DROP FUNCTION GetFilesInDirectory
+DROP FUNCTION ListFiles
 DROP PROCEDURE DeleteFileByStreamId
 DROP PROCEDURE DeleteFileByPathLocator
 DROP PROCEDURE DeleteFileByPath
@@ -45,7 +45,7 @@ GO
 CREATE Procedure CreateTextFile(@table NVARCHAR(100), @file NVARCHAR(400), @text NVARCHAR(Max))
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].CreateTextFile;
 GO
-CREATE FUNCTION GetFilesInDirectory(@table NVARCHAR(100), @directory NVARCHAR(MAX), @recursive bit, @excludeData bit, @excludeDirectories bit)
+CREATE FUNCTION ListFiles(@table NVARCHAR(100), @directory NVARCHAR(MAX), @recursive bit, @excludeData bit, @excludeDirectories bit)
 RETURNS TABLE (stream_id uniqueidentifier
 , file_stream varbinary(max)
 , name nvarchar(255)
@@ -64,7 +64,7 @@ RETURNS TABLE (stream_id uniqueidentifier
 , is_system bit
 , is_temporary bit
 )  
-AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].GetFilesInDirectory;
+AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].ListFiles;
 GO
 CREATE Procedure DeleteFileByStreamId(@table NVARCHAR(100), @stream_id UniqueIdentifier)
 AS EXTERNAL NAME FileTableFramework.[Rhyous.Db.FileTableFramework.FileTableExtensions].DeleteFileByStreamId;

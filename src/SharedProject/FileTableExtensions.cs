@@ -89,21 +89,21 @@ namespace Rhyous.Db.FileTableFramework
         [SqlFunction(DataAccess = DataAccessKind.Read, SystemDataAccess = SystemDataAccessKind.Read,
                     FillRowMethodName = "FillFileRow",
                     TableDefinition = "stream_id uniqueidentifier, file_stream varbinary(max)")]
-        public static IEnumerable GetFilesInDirectory(string table, string path, bool recursive, bool excludeData, bool excludeDirectories = true)
+        public static IEnumerable ListFiles(string table, string path, bool recursive, bool excludeData, bool excludeDirectories = true)
         {
             using (SqlConnection conn = new SqlConnection("context connection=true"))
             {
                 conn.Open();
-                return _GetFilesInDirectory(table, path, recursive, excludeDirectories, excludeData, conn);
+                return _ListFiles(table, path, recursive, excludeDirectories, excludeData, conn);
             }
         }
 
         /// <summary>
         /// Used for unit testing to inject a separate rep.
         /// </summary>
-        internal static IEnumerable<File> _GetFilesInDirectory(string table, string directory, bool recursive, bool excludeData, bool excludeDirectories, SqlConnection conn, IFileTableManager ftManager = null)
+        internal static IEnumerable<File> _ListFiles(string table, string directory, bool recursive, bool excludeData, bool excludeDirectories, SqlConnection conn, IFileTableManager ftManager = null)
         {
-            return (ftManager ?? new FileTableManager()).GetFilesInDirectory(table, directory, conn, recursive, excludeData, excludeDirectories);
+            return (ftManager ?? new FileTableManager()).ListFiles(table, directory, conn, recursive, excludeData, excludeDirectories);
         }
 
         public static void FillFileRow(Object obj, out Guid stream_id,

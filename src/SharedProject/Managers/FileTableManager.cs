@@ -64,9 +64,9 @@ namespace Rhyous.Db.FileTableFramework.Managers
             return FileTableRepo.FindPath(table, path, false, conn);
         }
 
-        public IEnumerable<File> GetFilesInDirectory(string table, string directory, SqlConnection conn, bool recursive, bool excludeData, bool excludeDirectories)
+        public IEnumerable<File> ListFiles(string table, string directory, SqlConnection conn, bool recursive, bool excludeData, bool excludeDirectories)
         {
-            return FileTableRepo.GetFilesInDirectory(table, directory, conn, recursive, excludeData, excludeDirectories);
+            return FileTableRepo.ListFiles(table, directory, conn, recursive, excludeData, excludeDirectories);
         }
 
         public int DeleteFile(string table, Guid stream_id, SqlConnection conn)
