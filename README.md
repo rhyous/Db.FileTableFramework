@@ -11,22 +11,25 @@ CLR Integration functions and stored procedures for SQL FileTables.
 
 Done
 
-## Functions Provided
+## Scalar-valued Functions Provided
 
 - DirectoryExists
 - FileExists
 - FileTableExists
- GetFilesInDirectory
+
+## Table-valued Functions
+
+- ListFiles
 
 ## Stored Procedures Provided
 
 - CreateDirectory
 - CreateFile
 - CreateTextFile
-- DeleteFileByStreamId
-- DeleteFileByPathLocator
 - DeleteFileByPath
-- RenameFileByStreamId
-- RenameFileByPathLocator
+- DeleteFileByPathLocator
+- DeleteFileByStreamId
 - RenameFileByPath
+- RenameFileByPathLocator
+- RenameFileByStreamId
 
