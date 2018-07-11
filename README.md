@@ -13,7 +13,7 @@ This allows for doing work directly against the database, which is useful especi
 
 Done
 
-## Scalar-valued Functions Provided
+## Scalar-valued Functions
 
 - DirectoryExists
 - FileExists
@@ -23,7 +23,7 @@ Done
 
 - ListFiles
 
-## Stored Procedures Provided
+## Stored Procedures
 
 - CreateDirectory
 - CreateFile
